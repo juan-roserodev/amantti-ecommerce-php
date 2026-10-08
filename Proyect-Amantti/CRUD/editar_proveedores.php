@@ -1,22 +1,25 @@
 <?php
+require_once("../Suministros/verificar_admin.php");
 include("../Suministros/conexion.php");
 
-$id = $_POST['id'];
-$nombre = $_POST['nombre'];
-$direccion = $_POST['direccion'];
-$telefono = $_POST['telefono'];
-$producto = $_POST['producto'];
-$estado = $_POST['estado'];
+$id = (int) ($_POST['id'] ?? 0);
+$nombre = trim($_POST['nombre'] ?? '');
+$direccion = trim($_POST['direccion'] ?? '');
+$telefono = trim($_POST['telefono'] ?? '');
+$producto = trim($_POST['producto'] ?? '');
+$estado = (int) ($_POST['estado'] ?? 0);
 
-$sql = "UPDATE proveedores SET
-        nombre='" . $nombre . "',
-        direccion='" . $direccion . "',
-        telefono='" . $telefono . "',
-        producto='" . $producto . "',
-        estado='" . $estado . "' WHERE id = '" . $id . "'";
+// Consulta preparada: los datos del formulario nunca se concatenan en el SQL
+$stmt = $conexion->prepare(
+    "UPDATE proveedores SET nombre = ?, direccion = ?, telefono = ?, producto = ?, estado = ? WHERE id = ?"
+);
+$stmt->bind_param("ssssii", $nombre, $direccion, $telefono, $producto, $estado, $id);
 
-if ($resultado = $conexion->query($sql)) {
+if ($stmt->execute()) {
     header("location:../Views/Administrador/crud_proveedores.php?edited=true");
 } else {
     echo "Datos no editados";
 }
+
+$stmt->close();
+$conexion->close();

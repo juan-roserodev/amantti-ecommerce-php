@@ -156,14 +156,14 @@ CREATE TABLE `proveedores` (
 --
 
 INSERT INTO `proveedores` (`id`, `nombre`, `direccion`, `telefono`, `producto`, `estado`) VALUES
-(1, 'Ángel Steven', 'CL 78 27 D4-94', '3200801533', 'Labial', 1),
-(2, 'Valentina Fuentes ', 'CL 96 20 K4-97', '3002997635', 'Rubor', 1),
-(3, 'Mayra Muñoz ', 'CL 80 8 M5-70', '3049087432', 'Pestañina', 1),
-(4, 'Sergio Robles', 'CL 100 KR 30B 2-4', '3056070908', 'Corrector', 1),
-(5, 'Diana Ospina', 'CL 50 22 F4 - 94', '3114567098', 'Polvos', 1),
-(6, 'Tatiana Rios', 'CL 29 79 M9 - 90', '3156565001', 'Base', 1),
-(7, 'Urley Banguero', 'CL 80 27 D3 - 98', '3166989123', 'Delineador', 1),
-(8, 'Valentina Escandón ', 'CL 100 KR 40 B2', '3188989012', 'Paletas', 2);
+(1, 'Distribuidora Belleza Uno', 'Calle 1 # 10-01', '3000000001', 'Labial', 1),
+(2, 'Cosméticos del Valle', 'Calle 2 # 20-02', '3000000002', 'Rubor', 1),
+(3, 'Importadora Glam', 'Calle 3 # 30-03', '3000000003', 'Pestañina', 1),
+(4, 'Proveedora Rostro Ideal', 'Calle 4 # 40-04', '3000000004', 'Corrector', 1),
+(5, 'Suministros Polvo Fino', 'Calle 5 # 50-05', '3000000005', 'Polvos', 1),
+(6, 'Bases y Tonos S.A.S.', 'Calle 6 # 60-06', '3000000006', 'Base', 1),
+(7, 'Trazo Perfecto Ltda.', 'Calle 7 # 70-07', '3000000007', 'Delineador', 1),
+(8, 'Paletas Color Demo', 'Calle 8 # 80-08', '3000000008', 'Paletas', 2);
 
 -- --------------------------------------------------------
 
@@ -205,10 +205,10 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombres`, `apellidos`, `correo`, `contraseña`, `rol_id`, `estado`) VALUES
-(1, 'David', 'Reyes', 'admin@amantti.com', '$2y$10$/ckJUOoOM//1RRRzZ7/m3uvbLRtlJ.bKRIItpX.tuaStQNUdd2pdW', 1, 1),
-(2, 'Meyerlandi', 'Reyes Hernández ', 'meyer04@amantti.com', '$2y$10$fFfWT3PkKymxzPlhvWpaqeQ/PLpBjESivcBqSczFeh3d04dS7LOrS', 2, 1),
-(3, 'Maribel', 'Pantoja', 'Mari@gmai.com', '$2y$10$yZYwu0juzr1PDMQnAYRWb.rBAwLUGUXmVIrT2kZSWvu/hRHmrsMGS', 2, 1),
-(4, 'Valentina', 'Reyes', 'Valentina12@gmai.com', '$2y$10$aH.paNdF7QALhz7Z7LNIK.n0NFgl0Knx7vuijWR4ajAEzXMgIgME6', 2, 2);
+(1, 'Admin', 'Demo', 'admin@amantti.com', '$2y$10$67ptGuX0GW5bl2ohO/XdWOaIYE39AJc4kDV.qkvMqxTXsBLsLUWmq', 1, 1),
+(2, 'Cliente', 'Demo', 'cliente@amantti.com', '$2y$10$ztly2PTGdwUiQOi9nsmM4e8FlR0zF7ob9I3fqPkKasTDkU9hGgjr.', 2, 1),
+(3, 'Laura', 'Gómez', 'laura.gomez@example.com', '$2y$10$ztly2PTGdwUiQOi9nsmM4e8FlR0zF7ob9I3fqPkKasTDkU9hGgjr.', 2, 1),
+(4, 'Andrés', 'Pérez', 'andres.perez@example.com', '$2y$10$ztly2PTGdwUiQOi9nsmM4e8FlR0zF7ob9I3fqPkKasTDkU9hGgjr.', 2, 2);
 
 --
 -- Índices para tablas volcadas

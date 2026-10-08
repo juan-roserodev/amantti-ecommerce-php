@@ -1,14 +1,19 @@
 <?php
+require_once("../Suministros/verificar_admin.php");
 include("../Suministros/conexion.php");
 
-$id = $_POST['id'];
-$valor = $_POST['valor'];
+$id = (int) ($_POST['id'] ?? 0);
+$valor = trim($_POST['valor'] ?? '');
 
-$sql = "UPDATE parametros SET
-        valor='" . $valor . "' WHERE id = '" . $id . "'";
+// Consulta preparada: los datos del formulario nunca se concatenan en el SQL
+$stmt = $conexion->prepare("UPDATE parametros SET valor = ? WHERE id = ?");
+$stmt->bind_param("si", $valor, $id);
 
-if ($resultado = $conexion->query($sql)) {
+if ($stmt->execute()) {
     header("location:../Views/Administrador/crud_estados.php?edited=true");
 } else {
     echo "Datos no editados";
 }
+
+$stmt->close();
+$conexion->close();

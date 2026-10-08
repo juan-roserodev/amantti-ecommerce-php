@@ -1,51 +1,49 @@
 <?php
+require_once("../Suministros/verificar_admin.php");
 include('../Suministros/conexion.php');
 
-// Verificar si la sesión está iniciada
-session_start();
-if (!isset($_SESSION['id_usuario'])) {
-    header("location:../Views/login.php");
-    exit;
+// Obtener y normalizar los datos del formulario
+$id = (int) ($_POST['id'] ?? 0);
+$nombre = trim($_POST['nombre'] ?? '');
+$descripcion = trim($_POST['descripcion'] ?? '');
+$precio = (int) ($_POST['precio'] ?? 0);
+$cantidad = (int) ($_POST['cantidad'] ?? 0);
+$estado = (int) ($_POST['estado'] ?? 0);
+$categoria = (int) ($_POST['categoria'] ?? 0);
+$proveedor = (int) ($_POST['proveedor'] ?? 0);
+$imagen = isset($_FILES['imagen']['name']) ? basename($_FILES['imagen']['name']) : '';
+
+if ($imagen !== '') {
+    // Solo se aceptan archivos de imagen
+    $extensionesPermitidas = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+    $extension = strtolower(pathinfo($imagen, PATHINFO_EXTENSION));
+    if (!in_array($extension, $extensionesPermitidas, true)) {
+        echo "Formato de imagen no permitido";
+        exit;
+    }
+
+    move_uploaded_file($_FILES['imagen']['tmp_name'], '../Img/' . $imagen);
+
+    // Consulta preparada que también actualiza la imagen
+    $stmt = $conexion->prepare(
+        "UPDATE productos SET nombre = ?, descripcion = ?, precio = ?, cantidad = ?, estado = ?,
+         categoria = ?, proveedor = ?, imagen = ? WHERE id = ?"
+    );
+    $stmt->bind_param("ssiiiiisi", $nombre, $descripcion, $precio, $cantidad, $estado, $categoria, $proveedor, $imagen, $id);
+} else {
+    // Consulta preparada sin cambiar la imagen actual
+    $stmt = $conexion->prepare(
+        "UPDATE productos SET nombre = ?, descripcion = ?, precio = ?, cantidad = ?, estado = ?,
+         categoria = ?, proveedor = ? WHERE id = ?"
+    );
+    $stmt->bind_param("ssiiiiii", $nombre, $descripcion, $precio, $cantidad, $estado, $categoria, $proveedor, $id);
 }
 
-// Obtener los datos del formulario
-$id = $_POST['id'];
-$nombre = $_POST['nombre'];
-$descripcion = $_POST['descripcion'];
-$precio = $_POST['precio'];
-$cantidad = $_POST['cantidad'];
-$estado = $_POST['estado'];
-$categoria = $_POST['categoria'];
-$proveedor = $_POST['proveedor'];
-$imagen = $_FILES['imagen']['name']; // Obtiene el nombre del archivo de imagen
-
-// SQL para actualizar el producto
-$sql = "UPDATE productos SET
-        nombre='" . $nombre . "',
-        descripcion='" . $descripcion . "',
-        precio='" . $precio . "',
-        cantidad='" . $cantidad . "',
-        estado='" . $estado . "',
-        categoria='" . $categoria . "',
-        proveedor='" . $proveedor . "'";
-
-// Solo se actualiza la imagen si se subió una nueva
-if (!empty($imagen)) {
-    // Mueve la imagen a la carpeta de destino (ajusta la ruta según sea necesario)
-    $imagenPath = '../Img/' . basename($imagen);
-    move_uploaded_file($_FILES['imagen']['tmp_name'], $imagenPath);
-    
-    $sql .= ", imagen='" . $imagen . "'";
-}
-
-$sql .= " WHERE id = '" . $id . "'";
-
-// Ejecutar la consulta
-if ($conexion->query($sql)) {
+if ($stmt->execute()) {
     header("location:../Views/Administrador/crud_productos.php?edited=true");
 } else {
-    echo "Error al editar el producto: " . $conexion->error;
+    echo "Error al editar el producto.";
 }
 
+$stmt->close();
 $conexion->close();
-?>

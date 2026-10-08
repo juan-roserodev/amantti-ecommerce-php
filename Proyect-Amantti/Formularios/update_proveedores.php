@@ -52,8 +52,12 @@ if (!isset($_SESSION['id_usuario'])) {
                         <form action="../CRUD/editar_proveedores.php" method="POST">
                             <?php
                             include_once("../Suministros/conexion.php");
-                            $sql = "SELECT * FROM proveedores WHERE id =" . $_REQUEST['id'];
-                            $resultado = $conexion->query($sql);
+                            // Consulta preparada: el id se recibe como entero y nunca se concatena en el SQL
+                            $id = (int) ($_REQUEST['id'] ?? 0);
+                            $stmt = $conexion->prepare("SELECT * FROM proveedores WHERE id = ?");
+                            $stmt->bind_param("i", $id);
+                            $stmt->execute();
+                            $resultado = $stmt->get_result();
                             $row = $resultado->fetch_assoc();
                             ?>
 

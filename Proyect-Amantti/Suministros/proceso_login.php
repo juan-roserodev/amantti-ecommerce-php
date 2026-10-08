@@ -25,10 +25,11 @@ if (isset($_POST['logueo'])) {
 
             // Verificar la contraseña ingresada
             if (password_verify($contraseña, $usuario['contraseña'])) {
-                // Los datos son correctos, configurar la sesión y redirigir
+                // Los datos son correctos: se regenera el id de sesión (evita fijación de sesión)
+                session_regenerate_id(true);
                 $_SESSION['id_usuario'] = $usuario['id'];
+                $_SESSION['rol_id'] = (int) $usuario['rol_id'];
                 $_SESSION['correo'] = $usuario['correo'];
-                $_SESSION['rol'] = $usuario['rol'];
                 $_SESSION['nombre'] = $usuario['nombres'];
 
                 // Redirigir según el rol del usuario

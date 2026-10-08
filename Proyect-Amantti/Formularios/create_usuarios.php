@@ -55,15 +55,15 @@ if (!isset($_SESSION['id_usuario'])) {
                                 <div class="col-12 col-md-6">
                                     <div class="mb-5 col-12 mx-auto">
                                         <label for="Nombres" class="form-label">Nombres</label>
-                                        <input type="text" class="form-control" name="nombres" id="Nombres" placeholder="Nombres" value="<?php echo isset($_GET['nombres']) ? $_GET['nombres'] : ''; ?>" required>
+                                        <input type="text" class="form-control" name="nombres" id="Nombres" placeholder="Nombres" value="<?php echo htmlspecialchars($_GET['nombres'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
                                     </div>
                                     <div class="mb-5 col-12 mx-auto">
                                         <label for="Apellidos" class="form-label">Apellidos</label>
-                                        <input type="text" class="form-control" name="apellidos" id="Apellidos" placeholder="Apellidos" value="<?php echo isset($_GET['apellidos']) ? $_GET['apellidos'] : ''; ?>" required>
+                                        <input type="text" class="form-control" name="apellidos" id="Apellidos" placeholder="Apellidos" value="<?php echo htmlspecialchars($_GET['apellidos'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
                                     </div>
                                     <div class="mb-5 col-12 mx-auto">
                                         <label for="Correo" class="form-label">Correo</label>
-                                        <input type="email" class="form-control" name="correo" id="Correo" placeholder="Correo" value="<?php echo isset($_GET['correo']) ? $_GET['correo'] : ''; ?>" required>
+                                        <input type="email" class="form-control" name="correo" id="Correo" placeholder="Correo" value="<?php echo htmlspecialchars($_GET['correo'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
                                     </div>
                                 </div>
                                 <!-- Columna derecha -->
